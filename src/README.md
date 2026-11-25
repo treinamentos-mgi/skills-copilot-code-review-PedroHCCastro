@@ -31,6 +31,14 @@ Uma aplicação FastAPI super simples que permite aos alunos visualizar e se ins
 | ------ | ----------------------------------------------------------------- | -------------------------------------------------------------------- |
 | GET    | `/activities`                                                     | Obtém todas as atividades com detalhes e número atual de participantes |
 | POST   | `/activities/{activity_name}/signup?email=student@mergington.edu` | Inscreve-se em uma atividade                                         |
+| POST   | `/auth/login?username={username}&password={password}`             | Autentica um professor e retorna um `token` de sessão (válido por 8 horas) |
+| POST   | `/auth/logout`                                                    | Revoga o token de sessão (requer `Authorization: Bearer <token>`)    |
+| GET    | `/announcements?active_only=true`                                 | Lista os anúncios (público). `active_only` retorna apenas os ativos   |
+| POST   | `/announcements`                                                  | Cria um anúncio (requer `Authorization: Bearer <token>`). Corpo: `message`, `expires_at` (obrigatório), `start_date` (opcional) |
+| PUT    | `/announcements/{announcement_id}`                                | Atualiza um anúncio (requer `Authorization: Bearer <token>`)         |
+| DELETE | `/announcements/{announcement_id}`                                | Exclui um anúncio (requer `Authorization: Bearer <token>`)           |
+
+Cada anúncio possui `status`: `active` (vigente), `scheduled` (ainda não começou) ou `expired` (expirado). A data de expiração não pode ser anterior à data de início.
 
 ## Modelo de Dados
 

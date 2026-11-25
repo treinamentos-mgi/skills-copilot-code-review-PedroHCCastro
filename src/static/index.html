@@ -12,13 +12,20 @@
     />
   </head>
   <body>
-     <div class="announcement-banner">
-    📢 As inscrições para atividades estão abertas até o final do mês. Não perca sua vaga!
- </div>
+    <section id="announcements-banner" class="announcement-banner hidden" aria-label="Anúncios" aria-live="polite"></section>
     <header>
       <h1>Mergington High School</h1>
       <h2>Atividades Extracurriculares</h2>
       <div id="user-controls">
+        <button
+          id="announcements-button"
+          class="icon-button announcements-button"
+          aria-controls="announcements-modal"
+        >
+          <span aria-hidden="true">📢</span>
+          <span class="button-label">Anúncios</span>
+          <span id="announcements-count" class="announcements-count hidden" aria-label="anúncios ativos"></span>
+        </button>
         <div id="user-status">
           <button id="login-button" class="icon-button">
             <span class="user-icon">👤</span>
@@ -114,6 +121,90 @@
           <input type="hidden" id="activity" value="" />
           <button type="submit">Registrar</button>
         </form>
+      </div>
+    </div>
+
+    <!-- Announcements Modal -->
+    <div id="announcements-modal" class="modal hidden">
+      <div
+        class="modal-content announcements-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="announcements-title"
+        aria-describedby="announcements-subtitle"
+      >
+        <div class="dialog-header">
+          <div>
+            <h3 id="announcements-title">Anúncios</h3>
+            <p id="announcements-subtitle" class="dialog-subtitle">
+              Mensagens exibidas no topo do site enquanto estiverem válidas.
+            </p>
+          </div>
+          <button type="button" id="announcements-close" class="dialog-close" aria-label="Fechar">&times;</button>
+        </div>
+
+        <div class="dialog-body">
+          <div id="announcements-feedback" class="hidden message" role="status"></div>
+
+          <div id="announcements-list-view">
+            <div class="dialog-toolbar">
+              <p id="announcements-auth-note" class="dialog-toolbar-note hidden">
+                Faça login como professor para criar, editar ou excluir anúncios.
+              </p>
+              <button type="button" id="announcement-new-button" class="primary-btn hidden">+ Novo anúncio</button>
+            </div>
+            <ul id="announcements-list" class="announcements-list" aria-label="Lista de anúncios"></ul>
+            <p id="announcements-empty" class="announcements-empty hidden">Nenhum anúncio cadastrado.</p>
+          </div>
+
+          <form id="announcement-form" class="announcement-form hidden" novalidate>
+            <h4 id="announcement-form-title">Novo anúncio</h4>
+
+            <div class="form-field">
+              <label for="announcement-message">
+                Mensagem
+                <span id="announcement-char-count" class="char-count">0/500</span>
+              </label>
+              <textarea
+                id="announcement-message"
+                rows="3"
+                maxlength="500"
+                required
+                placeholder="Ex.: Inscrições abertas para o clube de robótica!"
+              ></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-field">
+                <label for="announcement-start">
+                  Início <span class="field-optional">(opcional)</span>
+                </label>
+                <input type="date" id="announcement-start" />
+              </div>
+              <div class="form-field">
+                <label for="announcement-expires">
+                  Expira em <span class="field-required" aria-hidden="true">*</span>
+                </label>
+                <input type="date" id="announcement-expires" required aria-required="true" />
+              </div>
+            </div>
+            <p class="field-hint">
+              Sem data de início, o anúncio passa a valer imediatamente. A data de expiração é obrigatória.
+            </p>
+
+            <div class="announcement-preview">
+              <span class="preview-label">Pré-visualização</span>
+              <p id="announcement-preview-text" class="announcement-preview-text" aria-hidden="true"></p>
+            </div>
+
+            <p id="announcement-form-error" class="form-error hidden" role="alert"></p>
+
+            <div class="form-actions">
+              <button type="button" id="announcement-cancel" class="secondary-btn">Cancelar</button>
+              <button type="submit" id="announcement-save" class="primary-btn">Salvar anúncio</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
